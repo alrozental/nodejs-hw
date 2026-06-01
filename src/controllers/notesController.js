@@ -3,9 +3,7 @@ import { Note } from '../models/note.js';
 
 export const getAllNotes = async (req, res) => {
   const notes = await Note.find();
-  if (!notes || notes.length === 0) {
-    throw createError(404, 'Notes not found');
-  }
+
   res.status(200).json(notes);
 };
 
