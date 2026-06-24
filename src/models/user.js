@@ -1,10 +1,10 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
+import { model } from 'mongoose';
 
 const userSchema = new Schema(
   {
     username: {
       type: String,
-      required: false,
       trim: true,
     },
     email: {
@@ -16,10 +16,11 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+      minlength: 8,
     },
     avatar: {
       type: String,
-      required: false,
+      require: false,
       default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
     },
   },
@@ -29,13 +30,13 @@ const userSchema = new Schema(
   },
 );
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', function () {
   if (!this.username) {
     this.username = this.email;
   }
-  next();
 });
 
+// Первизначаємо метод toJSON, щоб не відправляти пароль у відповідь
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.password;
